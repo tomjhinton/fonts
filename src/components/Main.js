@@ -1,6 +1,6 @@
 
 import React from 'react'
-
+import { SketchPicker } from 'react-color';
 
 
 class Main extends React.Component{
@@ -10,7 +10,7 @@ class Main extends React.Component{
       data: {},
       error: '',
       font: 'Passio',
-      fontList: ['Passio', 'Ferrite', '"Art-Dystopia II', 'ChunkFive', 'Orbitron Black', 'Tapeworm'],
+      fontList: [{name: 'Passio'}, {name: 'Ferrite'}, {name: 'Art-Dystopia II'}, {name: 'ChunkFive'}, {name: 'Orbitron Black'}, {name: 'Tapeworm'}],
       fontSize: 2,
       fontColor: 'black',
       bgColor: 'white'
@@ -18,6 +18,7 @@ class Main extends React.Component{
     }
     this.componentDidMount = this.componentDidMount.bind(this)
     this.fontSelect = this.fontSelect.bind(this)
+    this.handleChangeComplete = this.handleChangeComplete.bind(this)
 
 
 
@@ -51,7 +52,9 @@ class Main extends React.Component{
     this.setState({font: e.target.innerText})
   }
 
-
+  handleChangeComplete(color) {
+    this.setState({ background: color.hex })
+  }
 
   render() {
 
@@ -60,14 +63,17 @@ class Main extends React.Component{
     return (
 
       <div onMouseMove={this.mouseMove} className="container">
+        <SketchPicker
+          color={ this.state.background }
+          onChangeComplete={ this.handleChangeComplete }/>
 
         <div className='columns'>
           <div className='column is-2'>
 
             {this.state.fontList.map((x,index)=>{
               return(
-                <div key={index} onClick={this.fontSelect} style={{fontFamily: x, cursor: 'pointer'}}>
-                  {x}
+                <div key={index} onClick={this.fontSelect} style={{fontFamily: x.name, cursor: 'pointer'}}>
+                  {x.name}
                 </div>
 
               )
